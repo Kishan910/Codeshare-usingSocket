@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codeshare</title>
+    <link rel="stylesheet" href="room.css">
+</head>
+
+<body>
+    
+    <div class="container">    
+        <div class="sidebar">
+            <form>
+                <input type="text" name="ext" id="ext" placeholder="Enter your extention">
+                <button formaction="/downloadcode">Download code</button>
+                <h2>Users List</h2>
+                <ul id="usersList"></ul>
+            </div>
+            <textarea id="editor" name="editor"><%=content%></textarea>
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/room.js"></script>
+</body>
+</html>
