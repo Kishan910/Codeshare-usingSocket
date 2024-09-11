@@ -9,7 +9,7 @@ const mongoose=require("mongoose");
 const CodeShare=require("./models/model");
 const fs=require("fs");
 
-mongoose.connect(process.env.MONGODB_URI).then(()=>console.log("connected")).catch(()=>console.log("Error"));
+mongoose.connect(process.env.MONGODB_URI).then(()=>console.log("connected")).catch(()=>console.log("Error MongoDB not connected"));
 
 app.set("view engine","ejs");
 app.set("views",path.resolve("./views"));
