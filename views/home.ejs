@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Selection</title>
+    <title>Codeshare</title>
     <link rel="stylesheet" href="index.css"/>
 </head>
 <body>
     <div class="heading">
-        Welcome to Codeshare
+        Welcome to Codeshare <%= locals.room%>
     </div>
     <div class="container">
         <div class="room-selection">
+            <input type="hidden" name="roomid" id="roomid" value="<%=locals.room %>"/>
             <input type="text" id="username" class="username-input" placeholder="Enter your username" />
             <button class="room-button" onclick="enterRoom()">Share Code Now</button>
         </div>
@@ -25,13 +26,16 @@
                 return;
             }
             const alphabet = "abcdefghijklmnopqrstuvwxyz";
-            let code = "";
-
-            for (let i = 0; i < 6; i++) {
-                const randomIndex = Math.floor(Math.random() * alphabet.length);
-                code += alphabet[randomIndex];
+            let code="";
+            if(roomid.value!="") code=roomid.value;
+            else{
+                for (let i = 0; i < 6; i++) {
+                    const randomIndex = Math.floor(Math.random() * alphabet.length);
+                    code += alphabet[randomIndex];
+                }
             }
             sessionStorage.setItem("username",username);
+            console.log("reached");
             window.location.href = `/${code}`;
         }
     </script>

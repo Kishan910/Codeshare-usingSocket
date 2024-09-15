@@ -18,7 +18,15 @@ app.use(express.static(path.resolve("./public")));
 
 
 app.get("/", (req, res) => {
-    return res.sendFile(path.resolve("./public/index.html"));
+    const roomid=req.headers['room-id'];
+    console.log("get room:"+roomid);
+    return res.render("home",{room:roomid});
+});
+
+app.get("/:id", async (req, res) => {
+    const roomId = req.params.id;
+    const content=await CodeShare.findOne({roomId:roomId});
+    return res.render("room",{content:content?.roomContent??""});
 });
 
 app.get("/downloadcode",async (req,res)=>{
@@ -49,12 +57,6 @@ app.get("/downloadcode",async (req,res)=>{
     }
 });
 
-app.get("/:id", async (req, res) => {
-    const roomId = req.params.id;
-    const content=await CodeShare.findOne({roomId:roomId});
-    return res.render("room",{content:content?.roomContent??""});
-});
-
 const io = new Server(server);
 let saveTimeout;
 
@@ -63,6 +65,7 @@ io.on("connection", (socket) => {
         const { room, username } = data;
         socket.join(room);
         socket.username = username;
+        console.log("this is my username:"+username);
         io.to(room).emit("userJoined", `${username} has joined ${room}`);
     });
 
