@@ -18,8 +18,7 @@ app.use(express.static(path.resolve("./public")));
 
 
 app.get("/", (req, res) => {
-    const roomid=req.headers['room-id'];
-    console.log("get room:"+roomid);
+    const roomid=req.headers['room-id']??"";
     return res.render("home",{room:roomid});
 });
 
