@@ -22,18 +22,11 @@ app.get("/", (req, res) => {
     return res.render("home",{room:roomid});
 });
 
-app.get("/:id", async (req, res) => {
-    const roomId = req.params.id;
-    const content=await CodeShare.findOne({roomId:roomId});
-    return res.render("room",{content:content?.roomContent??""});
-});
-
 app.get("/downloadcode",async (req,res)=>{
     let ext = req.query.ext;
     if(!ext)ext="txt";
     const fileContent = req.query.editor;
     const fileName = `sample.${ext}`;
-
     try {
         fs.writeFileSync(fileName, fileContent);
         res.download(fileName, (err) => {
@@ -56,6 +49,14 @@ app.get("/downloadcode",async (req,res)=>{
     }
 });
 
+app.get("/:id", async (req, res) => {
+    const roomId = req.params.id;
+    const content=await CodeShare.findOne({roomId:roomId});
+    return res.render("room",{content:content?.roomContent??""});
+});
+
+
+
 const io = new Server(server);
 let saveTimeout;
 
@@ -75,9 +76,9 @@ io.on("connection", (socket) => {
         });
     });
     
-    socket.on("disconnect", () => {
-        console.log("Socket disconnected:", socket.id);
-    });    
+    // socket.on("disconnect", () => {
+    //     console.log("Socket disconnected:", socket.id);
+    // });    
 
     socket.on("txtmsg", async (data) => {
         const { room, message } = data;
