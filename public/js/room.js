@@ -25,7 +25,7 @@ if (username == null) {
         document.close();
         history.pushState({}, "", "/");
     })
-    .catch(error => {
+    .catch(error => {   
         console.error("Error:", error);
     });
     
